@@ -168,13 +168,12 @@ public class CargarTareas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtAgregarActionPerformed
+        
         if(jcbCategoria.getSelectedItem() == Categorias.SELECCIONAR){
             JOptionPane.showMessageDialog(this, "Debe seleccionar una categoria");
             jcbCategoria.requestFocus();
         }else{
             Categorias laCategorias=jcbCategoria.getItemAt(jcbCategoria.getSelectedIndex());
-//            SimpleDateFormat correcto=new SimpleDateFormat("dd-MM-yyyy");
-//            System.out.println("Muestro por consola la fecha "+correcto.format(jcFecha.getDate()));
             Eventos nuevo=new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias);
             Tareas.listaEventos.add(new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias));
             //veoLista(listaEventos);
@@ -218,6 +217,7 @@ public class CargarTareas extends javax.swing.JInternalFrame {
         modelo.addColumn("Nombre Tarea");
         modelo.addColumn("Estado");
         modelo.addColumn("Fecha de inicio");
+        modelo.addColumn("Categoria");
         jTAgenda.setModel(modelo);
     }
 
@@ -238,10 +238,27 @@ public class CargarTareas extends javax.swing.JInternalFrame {
 
        private void armarFilas(ArrayList<Eventos> vieneEventos){
            //modelo.addRow(new Object[] {vieneEventos.getNombre(), vieneEventos.getEstado(), vieneEventos.getFecha(), vieneEventos.getLasCategorias()});
-           for (Eventos laLista : vieneEventos) {
-               SimpleDateFormat correcto=new SimpleDateFormat("dd-MM-yyyy");
-               String fechaBien=correcto.format(laLista.getFecha());
-               modelo.addRow(new Object[]{laLista.getNombre(), laLista.getEstado(), fechaBien, laLista.getLasCategorias()});
+           //borrarContenido();
+           
+           if(Tareas.listaEventos.size()-1 >=0){
+              Eventos aux=Tareas.listaEventos.get(Tareas.listaEventos.size()-1);
+              SimpleDateFormat correcto=new SimpleDateFormat("dd-MM-yyyy");
+              String fechaBien=correcto.format(aux.getFecha());
+              modelo.addRow(new Object[]{aux.getNombre(), aux.getEstado(), fechaBien, aux.getLasCategorias()});
+           }
+//           for (Eventos laLista : vieneEventos) {
+//              if(jTAgenda.){
+//               
+//               modelo.addRow(new Object[]{laLista.getNombre(), laLista.getEstado(), fechaBien, laLista.getLasCategorias()});
+//              }
+//           }
+            
+       }
+       
+       private void borrarContenido(){
+           int fila=jTAgenda.getRowCount();
+           for (int i = fila; i > 0; i--) {
+               modelo.removeRow(i);
            }
        }
        
