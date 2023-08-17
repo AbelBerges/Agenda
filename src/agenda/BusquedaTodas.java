@@ -44,7 +44,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         jtBusqueda = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTResultado = new javax.swing.JTable();
-        jbtCabiarEstado = new javax.swing.JButton();
+        jbtCambiarEstado = new javax.swing.JButton();
         jbtEliminar = new javax.swing.JButton();
         jrPendientes = new javax.swing.JRadioButton();
         jrRealizada = new javax.swing.JRadioButton();
@@ -75,7 +75,12 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTResultado);
 
-        jbtCabiarEstado.setText("Cambiar Estado");
+        jbtCambiarEstado.setText("Cambiar Estado");
+        jbtCambiarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtCambiarEstadoActionPerformed(evt);
+            }
+        });
 
         jbtEliminar.setText("Eliminar");
 
@@ -110,7 +115,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jbtCabiarEstado)
+                        .addComponent(jbtCambiarEstado)
                         .addGap(33, 33, 33)
                         .addComponent(jbtEliminar)
                         .addGap(10, 10, 10)))
@@ -130,7 +135,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                     .addComponent(jrRealizada))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbtCabiarEstado)
+                    .addComponent(jbtCambiarEstado)
                     .addComponent(jbtEliminar))
                 .addGap(38, 38, 38)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -146,7 +151,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
             for (Eventos listaEvento : Tareas.listaEventos) {
                 if (jtBusqueda.getText().isEmpty()) {
                     borrarFilas();
-                } else if (listaEvento.getEstado().equals("Realizado")) {
+                } else if (listaEvento.getEstado().equals("Realizada")) {
                     if (listaEvento.getNombre().startsWith(jtBusqueda.getText())) {
                         modelo.addRow(new Object[]{
                             listaEvento.getNombre(), listaEvento.getEstado(),
@@ -174,6 +179,18 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtBusquedaKeyReleased
 
+    private void jbtCambiarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtCambiarEstadoActionPerformed
+        int valor=jTResultado.getSelectedRow();
+        if(valor!=-1){
+            Eventos aux=new Eventos(Tareas.listaEventos.get(valor).getNombre(), "Realizada",
+                    Tareas.listaEventos.get(valor).getFecha(), Tareas.listaEventos.get(valor).getLasCategorias());
+            Tareas.listaEventos.set(valor, aux);
+            modelo.removeRow(valor);
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        }
+    }//GEN-LAST:event_jbtCambiarEstadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup grupoRadioBotones;
@@ -181,7 +198,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTResultado;
-    private javax.swing.JButton jbtCabiarEstado;
+    private javax.swing.JButton jbtCambiarEstado;
     private javax.swing.JButton jbtEliminar;
     private javax.swing.JRadioButton jrPendientes;
     private javax.swing.JRadioButton jrRealizada;
