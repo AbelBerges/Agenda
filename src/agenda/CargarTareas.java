@@ -176,7 +176,7 @@ public class CargarTareas extends javax.swing.JInternalFrame {
             Categorias laCategorias=jcbCategoria.getItemAt(jcbCategoria.getSelectedIndex());
             Eventos nuevo=new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias);
             Tareas.listaEventos.add(new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias));
-            //veoLista(listaEventos);
+            veoLista(listaEventos);
             armarFilas(listaEventos);
         }
     }//GEN-LAST:event_jbtAgregarActionPerformed
@@ -259,8 +259,9 @@ public class CargarTareas extends javax.swing.JInternalFrame {
        private void veoLista(ArrayList<Eventos> lista){
           
            for (Eventos laLista : lista) {
-               System.out.println("Muestro los componentes de la lista Nombre: "+laLista.getNombre()
-                       +" Estado "+laLista.getEstado()+" la fecha "+laLista.getFecha()+" la catagoria "+laLista.getLasCategorias());
+               //System.out.println("Muestro los componentes de la lista Nombre: "+laLista.getNombre());
+               System.out.println(laLista.getEstado());
+                       
            }
           
        }

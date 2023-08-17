@@ -65,6 +65,11 @@ public static ArrayList<Eventos> listaEventos=new ArrayList<>();
         jMenu2.setText("Busquedas");
 
         jMenuItem4.setText("Todas las tareas");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuBar1.add(jMenu2);
@@ -95,6 +100,15 @@ public static ArrayList<Eventos> listaEventos=new ArrayList<>();
         escritorio.add(eventos);
         escritorio.moveToFront(eventos);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+       escritorio.removeAll();
+       escritorio.repaint();
+       BusquedaTodas busco=new BusquedaTodas();
+       busco.setVisible(true);
+       escritorio.add(busco);
+       escritorio.moveToFront(busco);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments

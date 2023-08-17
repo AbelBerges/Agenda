@@ -4,6 +4,7 @@
  */
 package agenda;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -12,18 +13,20 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BusquedaTodas extends javax.swing.JInternalFrame {
 
-    public DefaultTableModel modelo=new DefaultTableModel(){
-    
-        public boolean isCellEditable(){
+    public DefaultTableModel modelo = new DefaultTableModel() {
+
+        public boolean isCellEditable() {
             return false;
         }
     };
-    
+
     /**
      * Creates new form BusquedaTodas
      */
     public BusquedaTodas() {
         initComponents();
+        armarColumnas();
+        //jtBusquedaKeyReleased();
     }
 
     /**
@@ -35,15 +38,16 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grupoRadioBotones = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtBusqueda = new javax.swing.JTextField();
-        jrPendientes = new javax.swing.JRadioButton();
-        jrRealiazdas = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTResultado = new javax.swing.JTable();
         jbtCabiarEstado = new javax.swing.JButton();
         jbtEliminar = new javax.swing.JButton();
+        jrPendientes = new javax.swing.JRadioButton();
+        jrRealizada = new javax.swing.JRadioButton();
 
         jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         jLabel1.setText("BÚSQUEDA DE TODAS LAS TAREAS");
@@ -52,9 +56,11 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         jLabel2.setText("Ingrese el patrón de búsqueda");
         jLabel2.setFocusable(false);
 
-        jrPendientes.setText("Pendientes");
-
-        jrRealiazdas.setText("Realizadas");
+        jtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtBusquedaKeyReleased(evt);
+            }
+        });
 
         jTResultado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,6 +78,12 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         jbtCabiarEstado.setText("Cambiar Estado");
 
         jbtEliminar.setText("Eliminar");
+
+        grupoRadioBotones.add(jrPendientes);
+        jrPendientes.setText("Pendiente");
+
+        grupoRadioBotones.add(jrRealizada);
+        jrRealizada.setText("Realizada");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,8 +103,8 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jrPendientes)
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jrRealiazdas))
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jrRealizada))
                                     .addComponent(jtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 291, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -115,21 +127,56 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jrPendientes)
-                    .addComponent(jrRealiazdas))
+                    .addComponent(jrRealizada))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtCabiarEstado)
                     .addComponent(jbtEliminar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtBusquedaKeyReleased
+        if (jrRealizada.isSelected()) {
+            borrarFilas();
+            for (Eventos listaEvento : Tareas.listaEventos) {
+                if (jtBusqueda.getText().isEmpty()) {
+                    borrarFilas();
+                } else if (listaEvento.getEstado().equals("Realizado")) {
+                    if (listaEvento.getNombre().startsWith(jtBusqueda.getText())) {
+                        modelo.addRow(new Object[]{
+                            listaEvento.getNombre(), listaEvento.getEstado(),
+                            listaEvento.getFecha(), listaEvento.getLasCategorias()
+                        });
+                    }
+                }
+            }
+        }
+        if (jrPendientes.isSelected()) {
+            borrarFilas();
+            for (Eventos pend : Tareas.listaEventos) {
+                if (jtBusqueda.getText().isEmpty()) {
+                    borrarFilas();
+                } else if (pend.getEstado().equals("Pendiente")) {
+                    if (pend.getNombre().startsWith(jtBusqueda.getText())) {
+                        modelo.addRow(new Object[]{
+                            pend.getNombre(), pend.getEstado(),
+                            pend.getFecha(), pend.getLasCategorias()
+                        });
+                    }
+
+                }
+            }
+        }
+    }//GEN-LAST:event_jtBusquedaKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup grupoRadioBotones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -137,17 +184,52 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbtCabiarEstado;
     private javax.swing.JButton jbtEliminar;
     private javax.swing.JRadioButton jrPendientes;
-    private javax.swing.JRadioButton jrRealiazdas;
+    private javax.swing.JRadioButton jrRealizada;
     private javax.swing.JTextField jtBusqueda;
     // End of variables declaration//GEN-END:variables
 
-
-    private void armarColumnas(){
+    private void armarColumnas() {
         modelo.addColumn("Nombre Tarea");
         modelo.addColumn("Estado");
         modelo.addColumn("Fecha de inicio");
         modelo.addColumn("Categoria");
+        jTResultado.setModel(modelo);
     }
 
+    private void borrarFilas() {
+        int filas = jTResultado.getRowCount() - 1;
+        for (int i = filas; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    private void jtBusquedaKeyReleased() {
+        if (jrRealizada.isSelected()) {
+            //borrarFilas();
+            for (Eventos listaEvento : Tareas.listaEventos) {
+                if (jtBusqueda.getText().isEmpty()) {
+                    borrarFilas();
+                } else if (listaEvento.getNombre().startsWith(jtBusqueda.getText()) && listaEvento.getEstado().equals("Realizado")) {
+                    modelo.addRow(new Object[]{
+                        listaEvento.getNombre(), listaEvento.getEstado(),
+                        listaEvento.getFecha(), listaEvento.getLasCategorias()
+                    });
+                }
+            }
+        }
+        if (jrPendientes.isSelected()) {
+            //borrarFilas();
+            for (Eventos pend : Tareas.listaEventos) {
+                if (jtBusqueda.getText().isEmpty()) {
+                    borrarFilas();
+                } else if (pend.getNombre().startsWith(jtBusqueda.getText()) && pend.getEstado().equals("Pendientes")) {
+                    modelo.addRow(new Object[]{
+                        pend.getNombre(), pend.getEstado(),
+                        pend.getFecha(), pend.getLasCategorias()
+                    });
+                }
+            }
+        }
+    }
 
 }
