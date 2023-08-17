@@ -30,14 +30,9 @@
             <Property name="text" type="java.lang.String" value="Busquedas"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Pendientes"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Realizadas"/>
+                <Property name="text" type="java.lang.String" value="Todas las tareas"/>
               </Properties>
             </MenuItem>
           </SubComponents>

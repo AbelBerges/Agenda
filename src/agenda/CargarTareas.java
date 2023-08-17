@@ -246,17 +246,11 @@ public class CargarTareas extends javax.swing.JInternalFrame {
               String fechaBien=correcto.format(aux.getFecha());
               modelo.addRow(new Object[]{aux.getNombre(), aux.getEstado(), fechaBien, aux.getLasCategorias()});
            }
-//           for (Eventos laLista : vieneEventos) {
-//              if(jTAgenda.){
-//               
-//               modelo.addRow(new Object[]{laLista.getNombre(), laLista.getEstado(), fechaBien, laLista.getLasCategorias()});
-//              }
-//           }
-            
+
        }
        
        private void borrarContenido(){
-           int fila=jTAgenda.getRowCount();
+           int fila=jTAgenda.getRowCount()-1;
            for (int i = fila; i > 0; i--) {
                modelo.removeRow(i);
            }
