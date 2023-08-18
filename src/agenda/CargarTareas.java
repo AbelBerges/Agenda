@@ -21,7 +21,8 @@ public class CargarTareas extends javax.swing.JInternalFrame {
 
     public DefaultTableModel modelo=new DefaultTableModel(){
     
-        public boolean isCellEditable(){
+        @Override
+        public boolean isCellEditable(int fila, int columna){
             return false;
         }
     
@@ -176,7 +177,7 @@ public class CargarTareas extends javax.swing.JInternalFrame {
             Categorias laCategorias=jcbCategoria.getItemAt(jcbCategoria.getSelectedIndex());
             Eventos nuevo=new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias);
             Tareas.listaEventos.add(new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias));
-            veoLista(listaEventos);
+            //veoLista(listaEventos);
             armarFilas(listaEventos);
             jtEvento.requestFocus();
             jtEvento.selectAll();
