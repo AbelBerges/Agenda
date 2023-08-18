@@ -178,6 +178,8 @@ public class CargarTareas extends javax.swing.JInternalFrame {
             Tareas.listaEventos.add(new Eventos(jtEvento.getText(), "Pendiente", jcFecha.getDate(), laCategorias));
             veoLista(listaEventos);
             armarFilas(listaEventos);
+            jtEvento.requestFocus();
+            jtEvento.selectAll();
         }
     }//GEN-LAST:event_jbtAgregarActionPerformed
 

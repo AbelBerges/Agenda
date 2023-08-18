@@ -83,12 +83,27 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         });
 
         jbtEliminar.setText("Eliminar");
+        jbtEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtEliminarActionPerformed(evt);
+            }
+        });
 
         grupoRadioBotones.add(jrPendientes);
         jrPendientes.setText("Pendiente");
+        jrPendientes.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jrPendientesFocusGained(evt);
+            }
+        });
 
         grupoRadioBotones.add(jrRealizada);
         jrRealizada.setText("Realizada");
+        jrRealizada.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jrRealizadaFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -160,8 +175,7 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                     }
                 }
             }
-        }
-        if (jrPendientes.isSelected()) {
+        }else if (jrPendientes.isSelected()) {
             borrarFilas();
             for (Eventos pend : Tareas.listaEventos) {
                 if (jtBusqueda.getText().isEmpty()) {
@@ -174,6 +188,18 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
                         });
                     }
 
+                }
+            }
+        }else{
+            borrarFilas();
+            for (Eventos total : Tareas.listaEventos) {
+                if(jtBusqueda.getText().isEmpty()){
+                    borrarFilas();
+                }else if(total.getNombre().startsWith(jtBusqueda.getText())){
+                    modelo.addRow(new Object[]{
+                    total.getNombre(), total.getEstado(),
+                        total.getFecha(), total.getLasCategorias()
+                    });
                 }
             }
         }
@@ -190,6 +216,34 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
         }
     }//GEN-LAST:event_jbtCambiarEstadoActionPerformed
+
+    private void jrRealizadaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jrRealizadaFocusGained
+        borrarFilas();
+        jtBusqueda.setText("");
+        jtBusqueda.requestFocus();
+        jtBusqueda.selectAll();
+    }//GEN-LAST:event_jrRealizadaFocusGained
+
+    private void jrPendientesFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jrPendientesFocusGained
+       borrarFilas();
+       jtBusqueda.setText("");
+       jtBusqueda.requestFocus();
+       jtBusqueda.selectAll();
+    }//GEN-LAST:event_jrPendientesFocusGained
+
+    private void jbtEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtEliminarActionPerformed
+        int valor=jTResultado.getSelectedRow();
+        if(valor!=-1){
+            modelo.removeRow(valor);
+            Tareas.listaEventos.remove(valor);
+            jtBusqueda.requestFocus();
+            jtBusqueda.selectAll();
+        }else{
+            JOptionPane.showMessageDialog(this, "Debe elegir una fila de la tabla");
+            jtBusqueda.requestFocus();
+            jtBusqueda.selectAll();
+        }
+    }//GEN-LAST:event_jbtEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -220,33 +274,6 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
         }
     }
 
-    private void jtBusquedaKeyReleased() {
-        if (jrRealizada.isSelected()) {
-            //borrarFilas();
-            for (Eventos listaEvento : Tareas.listaEventos) {
-                if (jtBusqueda.getText().isEmpty()) {
-                    borrarFilas();
-                } else if (listaEvento.getNombre().startsWith(jtBusqueda.getText()) && listaEvento.getEstado().equals("Realizado")) {
-                    modelo.addRow(new Object[]{
-                        listaEvento.getNombre(), listaEvento.getEstado(),
-                        listaEvento.getFecha(), listaEvento.getLasCategorias()
-                    });
-                }
-            }
-        }
-        if (jrPendientes.isSelected()) {
-            //borrarFilas();
-            for (Eventos pend : Tareas.listaEventos) {
-                if (jtBusqueda.getText().isEmpty()) {
-                    borrarFilas();
-                } else if (pend.getNombre().startsWith(jtBusqueda.getText()) && pend.getEstado().equals("Pendientes")) {
-                    modelo.addRow(new Object[]{
-                        pend.getNombre(), pend.getEstado(),
-                        pend.getFecha(), pend.getLasCategorias()
-                    });
-                }
-            }
-        }
-    }
+
 
 }
