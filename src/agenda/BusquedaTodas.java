@@ -15,7 +15,8 @@ public class BusquedaTodas extends javax.swing.JInternalFrame {
 
     public DefaultTableModel modelo = new DefaultTableModel() {
 
-        public boolean isCellEditable() {
+        @Override
+        public boolean isCellEditable(int fila, int columna) {
             return false;
         }
     };
